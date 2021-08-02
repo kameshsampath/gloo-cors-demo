@@ -1,0 +1,15 @@
+discovery:
+  enabled: false
+  # disable auto function discovery
+  fdsMode: DISABLED
+settings:
+  writeNamespace: my-gloo
+  watchNamespaces:
+    - fruits-app
+    - my-gloo
+gatewayProxies:
+  gatewayProxy:
+    service:
+      type: NodePort
+      httpNodePort: 30080
+      httpsNodePort: 30443

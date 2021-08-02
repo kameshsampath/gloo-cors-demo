@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fruits-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: fruits-api
+      labels:
+        app: fruits-api
+        version: v1.0
+    spec:
+      volumes:
+        - name: fruits-db-dir
+          persistentVolumeClaim:
+            claimName: fruits-db-pvc
+      containers:
+        - name: fruits-api
+          image: quay.io/kameshsampath/fruits-api
+          imagePullPolicy: Always
+          env:
+            - name: GIN_MODE
+              value: "release"
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: hostname
+                  name: pgsql-credentials
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: pgsql-credentials
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pgsql-credentials
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: pgsql-credentials
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: pgsql-credentials
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /v1/api/health/live
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /v1/api/health/ready
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "200Mi"
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+          volumeMounts:
+            - mountPath: /fruits-db
+              name: fruits-db-dir
+      restartPolicy: Always
+      serviceAccountName: fruits-api-sa
+  selector:
+    matchLabels:
+      app: fruits-api
+      version: v1.0

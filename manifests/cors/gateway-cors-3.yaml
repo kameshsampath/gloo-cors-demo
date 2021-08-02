@@ -1,0 +1,28 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: fruits-api
+  namespace: my-gloo
+spec:
+  displayName: FruitsAPI
+  virtualHost:
+    options:
+      cors:
+        allowOriginRegex:
+          - '^http(s)?:\/\/localhost:[0-9]{4,5}$'
+        allowHeaders:
+          - origin
+          - content-type
+        allowMethods:
+          - DELETE
+        maxAge: 1d
+    domains:
+      - '*'
+    routes:
+      - matchers:
+          - prefix: /
+        routeAction:
+          single:
+            upstream:
+              name: fruits-app-fruits-api-8080
+              namespace: my-gloo
