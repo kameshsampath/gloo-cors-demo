@@ -2,11 +2,11 @@ apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
   name: fruits-api
-  namespace: my-gloo
+  namespace: gloo-system
 spec:
   virtualHost:
     domains:
-      - '*'
+      - "*"
     routes:
       - matchers:
           - prefix: /
@@ -14,4 +14,4 @@ spec:
           single:
             upstream:
               name: fruits-app-fruits-api-8080
-              namespace: my-gloo
+              namespace: gloo-system

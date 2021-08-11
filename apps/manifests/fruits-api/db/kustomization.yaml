@@ -12,5 +12,5 @@ secretGenerator:
 resources:
   - namespace.yaml
   - deployment.yaml
-  - pvc.yaml
+  #  - pvc.yaml
   - service.yaml

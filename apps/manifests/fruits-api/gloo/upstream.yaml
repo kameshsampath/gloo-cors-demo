@@ -2,7 +2,7 @@ apiVersion: gloo.solo.io/v1
 kind: Upstream
 metadata:
   name: fruits-app-fruits-api-8080
-  namespace: my-gloo
+  namespace: gloo-system
 spec:
   kube:
     selector:

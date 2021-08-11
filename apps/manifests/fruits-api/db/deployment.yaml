@@ -14,8 +14,7 @@ spec:
     spec:
       volumes:
         - name: pgdata
-          persistentVolumeClaim:
-            claimName: pgdata-pvc
+          emptyDir: {}
       containers:
         - name: postgresql
           image: postgres:13.2-alpine
