@@ -70,7 +70,7 @@ glooctl get upstream fruits-app-fruits-api-8080
 Deploy the gateway,
 
 ```shell
-kubectl apply -n gloo-system -f $DEMO_HOME/apps/manifests/fruits-api/gloo/gateway
+kubectl apply -n gloo-system -f $DEMO_HOME/apps/manifests/fruits-api/gloo/gateway.yaml
 ```
 
 Check the status of the virtual service
